@@ -125,14 +125,14 @@ public class MeshManager : MonoBehaviour
     {
         // 在这里测试一些列操作
         Edge a = new Edge();
-        a.VertexA = new Vertex(new Vector2(0, 0));
-        a.VertexB = new Vertex(new Vector2(1, 0));
+        a.VertexA = new Vertex(new Vector2(-1, 1));
+        a.VertexB = new Vertex(new Vector2(0, 1));
         Edge b = new Edge();
-        b.VertexA = new Vertex(new Vector2(0, 0));
-        b.VertexB = new Vertex(new Vector2(0, 1));
+        b.VertexA = new Vertex(new Vector2(0, -1));
+        b.VertexB = new Vertex(new Vector2(0, 2));
 
         BooleanOperation.IntersectionEdgeEdgeResult ANS;
-        BooleanOperation.IntersectionEdgeEdge(a, b, out ANS);
+        BooleanOperation.IntersectionEdgeEdge(b, a, out ANS);
         if (ANS is not null)
         {
             Debug.Log(ANS.iType + "  " + ANS.pType + "  " + ANS.spsr + "  " + ANS.hTType + "  " + ANS.tSType
@@ -142,9 +142,8 @@ public class MeshManager : MonoBehaviour
             Debug.Log("无交点");
     }
 
-    // Update is called once per frame
-    void Update()
+    public void Intersection()
     {
-        
+        BooleanOperation.Intersection(ref meshA, ref meshB, ref meshC);
     }
 }
