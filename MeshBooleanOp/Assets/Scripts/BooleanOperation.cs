@@ -1313,8 +1313,25 @@ public class BooleanOperation
         bool flag = true;
         int ans = 0;
         
-        // 只需要一个点获取正确的绕数就能得到
+        // 给一个用于获取绕数的点集合
+        // 所有的顶点+所有的中点
+        List<Vector2> points = new List<Vector2>();
         foreach (var vert in targLoop.Vertices)
+        {
+            if (points.Count() == 0)
+            {
+                points.Add(vert.Point);
+            }
+            else
+            {
+                Vector2 p = points[points.Count() - 1];
+                points.Add((p + vert.Point) / 2.0f);
+                points.Add(vert.Point);
+            }
+        }
+        
+        // 只需要一个点获取正确的绕数就能得到
+        foreach (var point in points)
         {
             // 360°，从0°开始，步长30°
             for (int i = 0; i < 12; i++)
@@ -1327,8 +1344,8 @@ public class BooleanOperation
                 
                 // 这条射线
                 Edge thisRay = new Edge();
-                thisRay.VertexBegin = new Vertex(vert.Point);
-                thisRay.VertexEnd = new Vertex(vert.Point + 150.0f * dir);
+                thisRay.VertexBegin = new Vertex(point);
+                thisRay.VertexEnd = new Vertex(point + 150.0f * dir);
                 
                 List<IntersectionEdgeEdgeResult> results = new List<IntersectionEdgeEdgeResult>();
                 // 开始计算，对背景loop每个边都
